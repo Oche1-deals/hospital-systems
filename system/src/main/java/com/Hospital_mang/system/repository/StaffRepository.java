@@ -1,9 +1,10 @@
 package com.Hospital_mang.system.repository;
 
-import com.Hospital_mang.system.model.Staff_record;
+import com.Hospital_mang.system.model.StaffRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StaffRepository extends JpaRepository<Staff_record,String> {
+public interface StaffRepository extends JpaRepository<StaffRecord,String> {
+    public StaffRecord findByEmailOrPhoneNumber(String email, String phoneNumber);
 }

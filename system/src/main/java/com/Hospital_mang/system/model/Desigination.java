@@ -5,11 +5,12 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Role {
+public class Desigination {
+
 
 @Id
-@Column(name = "role_id", nullable = false)
- private String roleId;
+@Column(name = "designation_id", nullable = false)
+ private String designationId;
 
  private String description;
 
