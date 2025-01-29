@@ -4,12 +4,15 @@
  */
 package com.Hospital_mang.system.request;
 
+import com.Hospital_mang.system.model.Role;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import java.util.Set;
+
 
 @Data
 @Setter
@@ -37,8 +40,9 @@ public class UserRequest {
     @NotEmpty(message = "password cannot be empty")
     private String password;
 
-    @NotNull(message = "role cannot be null")
-    private String role;
+//    @NotNull(message = "role cannot be null")
+//    private String role;
+    private Set<Role> roles;
 
 
 

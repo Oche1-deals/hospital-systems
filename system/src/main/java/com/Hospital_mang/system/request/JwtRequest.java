@@ -4,20 +4,21 @@
  */
 package com.Hospital_mang.system.request;
 
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Setter
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class JwtRequest {
 
     @NotBlank(message = "Username must not be null or empty")
     private String userName;
     @NotBlank
     private String userPassword;
-//    @NotBlank
-//    private String deviceId;
+
 
 }

@@ -50,16 +50,16 @@ public class UserServiceImpl implements UserService {
         Login newUser;
         List<Object> responseList = null;
         try {
-            String userRole = request.getRole().toString();
+
             responseList = new ArrayList<>();
-            Role role = roleRepository.findById(userRole).orElse(null);
+//Role role = roleRepository.findById(userRole).orElse(null);
             newUser = new Login();
             newUser.setStaffId(request.getId());
             newUser.setEmail(request.getFirstName());
             newUser.setPassword(getEncodedPassword(request.getPassword()));
             Role roles = null;
-            roles.setRoleId(request.getRole());
-            newUser.setRole(roles);
+           // roles.setRoleId(request.getRole());
+            newUser.setRoles(request.getRoles());
             newUser = userRepository.save(newUser);
             responseList.add(newUser);
 

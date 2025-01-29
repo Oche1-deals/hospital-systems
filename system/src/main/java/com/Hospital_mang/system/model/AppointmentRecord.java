@@ -4,7 +4,7 @@ import com.Hospital_mang.system.model.enummodel.AppointmentEnum;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity

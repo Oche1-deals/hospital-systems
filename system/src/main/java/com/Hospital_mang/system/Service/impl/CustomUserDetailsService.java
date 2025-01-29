@@ -6,12 +6,14 @@ package com.Hospital_mang.system.Service.impl;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.Hospital_mang.system.Service.UserService;
 import com.Hospital_mang.system.model.Login;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,13 +42,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     }
 
-    private Set<SimpleGrantedAuthority> getAuthority(Login user) {
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-//        user.set().forEach(role -> {
-//
-//        });
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().getDescription()));
-        authorities.add(new SimpleGrantedAuthority("ROLEID_" + user.getRole().getRoleId()));
+    private Set<GrantedAuthority> getAuthority(Login user) {
+
+        Set<GrantedAuthority> authorities = user.getRoles().stream()
+                .map((role) -> new SimpleGrantedAuthority(role.getDescription()))
+                .collect(Collectors.toSet());
+
         return authorities;
     }
 

@@ -4,9 +4,12 @@
  */
 package com.Hospital_mang.system.dtoconverter;
 
+import com.Hospital_mang.system.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -25,6 +28,7 @@ public class SystemUserDTO {
     private String lgaID;
     private String roleId;
     private String roleName;
+    private Set<Role> roles;
 
 }
 

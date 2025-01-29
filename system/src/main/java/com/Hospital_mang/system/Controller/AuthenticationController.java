@@ -14,12 +14,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 
 @CrossOrigin
 @RestController
@@ -30,8 +31,7 @@ import javax.validation.Valid;
 @Tag(name = "Authentication Service", description = "This class handles all authentication within users account, including login")
 public class AuthenticationController {
 
-    @Autowired
-    private final UserService userService;
+
     @Autowired
     private UserLoginService userLoginService;
 

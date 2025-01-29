@@ -25,8 +25,7 @@ public class UserUtil {
 
     @Autowired
     private final LoginRepository loginRepository;
-    @Autowired
-    private StaffRecord systemuserRepository;
+
 
     public Login getLoggedInUser() throws UserNotFoundException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()

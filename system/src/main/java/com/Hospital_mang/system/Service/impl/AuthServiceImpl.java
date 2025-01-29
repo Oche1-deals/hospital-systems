@@ -37,6 +37,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -65,12 +66,9 @@ public class AuthServiceImpl implements AuthService {
         String userPassword = jwtRequest.getUserPassword();
         UserDetails userDetails = null;
         RefreshToken refreshToken = null;
-        String newGeneratedToken = null;
-        Login login = null;
-        StaffRecord userProfile = null;
-        String authorizationHeader = request.getHeader("Authorization");
-        String jwtToken = userUtil.extractJwtToken(authorizationHeader);
-        System.out.println("authorizationHeader " + authorizationHeader);
+        String newGeneratedToken;
+        Login login;
+        StaffRecord userProfile;
         MessageResponseObject messageResponseObject = userLoginService.getActiveUserByEmail(userName);
                if (messageResponseObject.getCode() != 200) {
             return new JwtResponse(null, null, null,
@@ -80,17 +78,10 @@ public class AuthServiceImpl implements AuthService {
         // login = (UserLogin) messageResponseObject.getData();
         login = (Login) responseMap.get("login");
 
-        //TRYING TO KNOW IF ROLE EXIST
-        if (login.getRole() == null || login.getRole().getDescription().equalsIgnoreCase("")) {
-            return new JwtResponse(null,
-                    null, null, HttpStatus.CONFLICT.value(), "Failed! Invalid account credentials for this operation; Customer account not allowed for this service");
-
-        }
-
         userProfile = (StaffRecord) responseMap.get("user");
         //System.out.println("userProfile "+new Gson().toJson(userProfile));
         if (userProfile != null) {
-            if (userProfile.getStatus() != "1") {
+            if (!Objects.equals(userProfile.getStatus(), "1")) {
                 return new JwtResponse(null,
                         null, null, HttpStatus.CONFLICT.value(), "Invalid account for this operation; Customer account not allowed for this service");
             }
@@ -110,7 +101,7 @@ public class AuthServiceImpl implements AuthService {
                         null, null, HttpStatus.NOT_FOUND.value(), ""
                         + "Invalid user name or password; Login retry count " + (login.getPasswordCount()) + " ."
                         + "Kindly note that your account would be locked after 4 wrong attempts");
-            } else if (login.getPasswordCount() >= 4) {
+            } else {
                 return new JwtResponse(null,
                         null, null, HttpStatus.NOT_FOUND.value(), ""
                         + "Login Failed; You have entered wrong details more than four times kindly"
@@ -124,13 +115,10 @@ public class AuthServiceImpl implements AuthService {
                     null, null, HttpStatus.CONFLICT.value(), "Invalid Operation: You have entered wrong details more then 4 times and your account has been locked"
                     + " Kindly revalidate to re active account");
         }
-        if (login.getLockedStatus() == "1") {
+        if (Objects.equals(login.getLockedStatus(), "1")) {
             return new JwtResponse(null,
                     null, null, HttpStatus.CONFLICT.value(), "Invalid Operation: Your account has been locked kindly "
                     + "revalidate and enter OTP to re active account");
-        }
-        if (login.getPasswordCount() == 4) {
-            authenticate(userName, userPassword);
         }
 
         try {
@@ -144,18 +132,21 @@ public class AuthServiceImpl implements AuthService {
             // systemUserDTO.setUserID(userName);
             systemUserDTO.setEmail(login.getEmail());
             systemUserDTO.setCompleted("1");
+            assert userProfile != null;
             systemUserDTO.setFirstName(userProfile.getFirstName());
             systemUserDTO.setLastName(userProfile.getLastName());
             systemUserDTO.setPhoneNumber(userProfile.getPhoneNumber());
             systemUserDTO.setUserID(userProfile.getStaffId());
             systemUserDTO.setRefrehToken(refreshToken.getToken());
-            systemUserDTO.setRoleId(login.getRole().getRoleId());
-            systemUserDTO.setRoleName(login.getRole().getDescription());
+            systemUserDTO.setRoles(login.getRoles());
+
                  } catch (Exception e) {
             //System.out.println("createRefreshToken Exception " + e.getMessage());
         }
+        assert userDetails != null;
         newGeneratedToken = jwtUtil.generateToken(userDetails);
         Map<String, Object> dataMap = new HashMap<String, Object>();
+        assert refreshToken != null;
         return new JwtResponse(login, newGeneratedToken, refreshToken.getToken(), null);
     }
 
