@@ -2,7 +2,7 @@ package com.Hospital_mang.system.Controller;
 
 import com.Hospital_mang.system.DTOs.StaffDTO;
 import com.Hospital_mang.system.Service.StaffService;
-import com.Hospital_mang.system.model.Staff_record;
+import com.Hospital_mang.system.model.StaffRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,27 +16,27 @@ public class StaffController {
 
     // Create new staff
     @PostMapping
-    public ResponseEntity<Staff_record> createStaff(@RequestBody StaffDTO staffDTO) {
-        Staff_record newStaff = staffService.createStaff(staffDTO);
+    public ResponseEntity<StaffRecord> createStaff(@RequestBody StaffDTO staffDTO) {
+        StaffRecord newStaff = staffService.createStaff(staffDTO);
         return ResponseEntity.ok(newStaff);
     }
     // Get all staff
     @GetMapping("/staff")
-    public ResponseEntity<List<Staff_record>> getAllStaff() {
-        List<Staff_record> staffList = staffService.getAllStaff();
+    public ResponseEntity<List<StaffRecord>> getAllStaff() {
+        List<StaffRecord> staffList = staffService.getAllStaff();
         return ResponseEntity.ok(staffList);
     }
 
     // Get staff by ID
     @GetMapping("/staff/{id}")
-    public ResponseEntity<Staff_record> getStaffById(@PathVariable String id) {
-        Staff_record staff = staffService.getStaffById(id);
+    public ResponseEntity<StaffRecord> getStaffById(@PathVariable String id) {
+        StaffRecord staff = staffService.getStaffById(id);
         return ResponseEntity.ok(staff);
     }
     // Update staff
     @PutMapping("/{id}")
-    public ResponseEntity<Staff_record> updateStaff(@PathVariable String id, @RequestBody StaffDTO staffDTO) {
-        Staff_record updatedStaff = staffService.updateStaff(id, staffDTO);
+    public ResponseEntity<StaffRecord> updateStaff(@PathVariable String id, @RequestBody StaffDTO staffDTO) {
+        StaffRecord updatedStaff = staffService.updateStaff(id, staffDTO);
         return ResponseEntity.ok(updatedStaff);
     }
 

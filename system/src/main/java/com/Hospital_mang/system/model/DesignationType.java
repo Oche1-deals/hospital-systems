@@ -1,14 +1,14 @@
 package com.Hospital_mang.system.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Data
-public class Designation_type {
+public class DesignationType {
 
 @Id
+@Column(name = "id", nullable = false)
  public String id;
 
  public String description;

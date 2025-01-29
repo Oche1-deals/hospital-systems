@@ -1,7 +1,6 @@
 package com.Hospital_mang.system.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -9,11 +8,12 @@ import lombok.Data;
 public class PatientProfile {
 
 @Id
- private String patient_id;
+@Column(name = "patient_id", nullable = false)
+ private String patientId;
 
- private String first_name;
+ private String firstName;
 
- private String last_name;
+ private String lastName;
 
  private String gender;
 
@@ -23,9 +23,9 @@ public class PatientProfile {
 
  private String address;
 
- private String blood_group;
+ private String bloodGroup;
 
- private Integer emergency_contact;
+ private Integer emergencyContact;
 
  private String status;
 

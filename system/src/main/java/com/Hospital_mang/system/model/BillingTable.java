@@ -2,28 +2,26 @@ package com.Hospital_mang.system.model;
 
 import com.Hospital_mang.system.model.enummodel.Payment_description;
 import com.Hospital_mang.system.model.enummodel.Payment_status;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.Data;
 
-import java.io.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.*;
 
 @Entity
 @Data
-public class billing_table {
+public class BillingTable {
 
 
 @Id
- private String bill_id;
+@Column(name = "bill_id", nullable = false)
+ private String billId;
 
- private String patient_id;
+ private String patientId;
 
- private Double total_amount;
-
- private Payment_description statuse;
-
+ private Double totalAmount;
+ @Enumerated(EnumType.ORDINAL)
+ private Payment_description paymentDescription;
+ @Enumerated(EnumType.ORDINAL)
  private Payment_status status;
 
  private LocalDateTime payment_date;
