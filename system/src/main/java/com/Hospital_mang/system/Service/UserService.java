@@ -12,5 +12,5 @@ public interface UserService {
     Login getUserByUsername(String username);
     String getEncodedPassword(String password);
     Boolean checkMatchPassword(String password,String comparePassword);
-    ResponseEntity<?> create(UserRequest request);
+    ResponseEntity<?> registerStaffRecord(UserRequest request);
 }

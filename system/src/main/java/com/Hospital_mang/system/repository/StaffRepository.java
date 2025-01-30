@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StaffRepository extends JpaRepository<StaffRecord,String> {
     public StaffRecord findByEmailOrPhoneNumberOrStaffId(String email, String phoneNumber,String staffId);
+    StaffRecord findByEmail(String email);
+    StaffRecord findByPhoneNumber(String phoneNumber);
 }

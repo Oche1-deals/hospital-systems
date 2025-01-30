@@ -1,5 +1,6 @@
 package com.Hospital_mang.system.model;
 
+import com.Hospital_mang.system.model.enummodel.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,15 +27,14 @@ public class StaffRecord {
     private String address;
     private String email;
 
-    private String gender;
+    @Enumerated(EnumType.ORDINAL)
+    private Gender gender;
 
     private String phoneNumber;
 
     private String status;
 
     private LocalDateTime createdAt;
-
-    @Column(nullable = false)
     private LocalDateTime updatedAt;
     private String designationId;
 

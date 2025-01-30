@@ -1,5 +1,6 @@
 package com.Hospital_mang.system.model;
 
+import com.Hospital_mang.system.model.enummodel.Gender;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,8 +15,8 @@ public class PatientProfile {
  private String firstName;
 
  private String lastName;
-
- private String gender;
+ @Enumerated(EnumType.ORDINAL)
+ private Gender gender;
 
  private String dob;
 
@@ -25,7 +26,7 @@ public class PatientProfile {
 
  private String bloodGroup;
 
- private Integer emergencyContact;
+ private String emergencyContact;
 
  private String status;
 

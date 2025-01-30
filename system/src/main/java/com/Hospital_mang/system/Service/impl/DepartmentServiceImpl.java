@@ -6,7 +6,9 @@ package com.Hospital_mang.system.Service.impl;
 
 import com.Hospital_mang.system.Service.DepartmentService;
 import com.Hospital_mang.system.Service.GenerateUniqueIDService;
+import com.Hospital_mang.system.Service.UserLoginService;
 import com.Hospital_mang.system.model.Department;
+import com.Hospital_mang.system.model.Login;
 import com.Hospital_mang.system.repository.DepartmentRepository;
 import com.Hospital_mang.system.request.PageItem;
 import com.Hospital_mang.system.response.MessageResponseObject;
@@ -30,16 +32,20 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentRepository departmentRepository;
     @Autowired
     private GenerateUniqueIDService generateUniqueIDService;
+    @Autowired
+    private UserLoginService userLoginService;
 
     @Override
     public ResponseEntity<?> registerDepartment(String departmentName) {
         String deptID = GenerateUniqueIDServiceImpl.zeroPad(generateUniqueIDService.
                 generateUniqueID("dept").getGeneNumber(), 5);
+        Login staffRcord = userLoginService.getUserJWTLogin();
         Department department = new Department();
         department.setDeptName(departmentName);
         department.setStatus(1);
         department.setDeleted(Boolean.FALSE);
         department.setDeptId(deptID);
+        department.setStaffId(staffRcord.getStaffId());
         Department savedDept = departmentRepository.save(department);
         if (savedDept == null) {
             return ResponseEntity.badRequest().body(new MessageResponseObject("Failed! Could not register deptment. Contact an Admin" +
@@ -65,5 +71,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 
         return ResponseEntity.accepted().body(new MessageResponseObject("Department found", HttpStatus.OK.value(), response));
+    }
+
+    @Override
+    public Department findDepartmentById(String departmentId) {
+        return departmentRepository.findById(departmentId).get();
     }
 }

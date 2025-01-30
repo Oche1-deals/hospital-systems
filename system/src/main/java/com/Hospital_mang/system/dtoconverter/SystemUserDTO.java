@@ -21,13 +21,7 @@ public class SystemUserDTO {
     private String lastName;
     private String phoneNumber;
     private String email;
-    private String completed;
     private String refrehToken;
-    private Boolean specialUser;
-    private String townID;
-    private String lgaID;
-    private String roleId;
-    private String roleName;
     private Set<Role> roles;
 
 }

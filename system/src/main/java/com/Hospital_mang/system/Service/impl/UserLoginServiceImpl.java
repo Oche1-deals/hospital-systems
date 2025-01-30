@@ -32,8 +32,6 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     private StaffRepository staffRepository;
     @Autowired
-    private UserService userService;
-    @Autowired
     private JwtUtil jwtUtil;
     @Autowired
     private HttpServletRequest request;
@@ -61,7 +59,7 @@ public class UserLoginServiceImpl implements UserLoginService {
                 return new MessageResponseObject("Operation not allowed; your account has not been activated", HttpStatus.PARTIAL_CONTENT.value());
             } else if (!Objects.equals(userProfile1.getStatus(), "1")) {
                 return new MessageResponseObject("Operation not allowed; your account has not been activated", HttpStatus.PARTIAL_CONTENT.value());
-            } else if ((userLogin != null && (Objects.equals(userLogin.getLockedStatus(), "0")))) {
+            } else if ((userLogin != null && (Objects.equals(userLogin.getLockedStatus(), "1")))) {
                 return new MessageResponseObject("Your account has been locked, kindly reset your account", HttpStatus.LOCKED.value());
             }else if ((userLogin != null && (!Objects.equals(userLogin.getLockedStatus(), "1")))) {
                 messageResponseObject.setCode(200);

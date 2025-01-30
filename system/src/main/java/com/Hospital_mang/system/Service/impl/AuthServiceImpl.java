@@ -81,7 +81,7 @@ public class AuthServiceImpl implements AuthService {
         if (userProfile != null) {
             if (!Objects.equals(userProfile.getStatus(), "1")) {
                 return ResponseEntity.badRequest().body(new JwtResponse(null,
-                        null, null, HttpStatus.CONFLICT.value(), "Invalid account for this operation; Customer account not allowed for this service"));
+                        null, null, HttpStatus.CONFLICT.value(), "Invalid account for this operation; Staff account not allowed for this service"));
             }
 
         }
@@ -123,29 +123,35 @@ public class AuthServiceImpl implements AuthService {
             //System.out.println("userName load " + userName);
             userDetails = customUserDetailsService.loadUserByUsername(userName);
         } catch (Exception e) {
-            //System.out.println("error in load " + e.getMessage());
+            System.out.println("error in load " + e.getMessage());
         }
-        try {
+        try{
             refreshToken = refreshTokenService.createRefreshToken(userName);
+        }catch (Exception e){}
+        try {
+
             // systemUserDTO.setUserID(userName);
             systemUserDTO.setEmail(login.getEmail());
-            systemUserDTO.setCompleted("1");
             assert userProfile != null;
             systemUserDTO.setFirstName(userProfile.getFirstName());
             systemUserDTO.setLastName(userProfile.getLastName());
             systemUserDTO.setPhoneNumber(userProfile.getPhoneNumber());
             systemUserDTO.setUserID(userProfile.getStaffId());
+            if(refreshToken != null)
             systemUserDTO.setRefrehToken(refreshToken.getToken());
             systemUserDTO.setRoles(login.getRoles());
 
                  } catch (Exception e) {
-            //System.out.println("createRefreshToken Exception " + e.getMessage());
+            System.out.println("createRefreshToken Exception " + e.getMessage());
         }
         assert userDetails != null;
         newGeneratedToken = jwtUtil.generateToken(userDetails);
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        assert refreshToken != null;
-          return ResponseEntity.ok( new JwtResponse(systemUserDTO, newGeneratedToken, refreshToken.getToken(), null));
+        if(refreshToken !=null) {
+            return ResponseEntity.ok(new JwtResponse(systemUserDTO, newGeneratedToken, refreshToken.getToken(), null));
+        }else{
+            return ResponseEntity.ok( new JwtResponse(systemUserDTO, newGeneratedToken, null, null));
+        }
     }
 
     @Override

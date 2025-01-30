@@ -38,4 +38,9 @@ public class RoleServiceImpl implements RoleService {
         return ResponseEntity.ok().body(new MessageResponseObject
                 ("Successful! role Registered", HttpStatus.CREATED.value(), savedRole));
     }
+
+    @Override
+    public Role findByRoleId(String roleId) {
+        return roleRepository.findById(roleId).get();
+    }
 }

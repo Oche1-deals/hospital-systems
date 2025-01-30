@@ -19,5 +19,6 @@ public class Department {
 
     private int status;//1 is active , 0 is invactive
     private boolean deleted;
+    private String staffId;
 
 }

@@ -9,6 +9,7 @@ import com.Hospital_mang.system.Service.UserLoginService;
 import com.Hospital_mang.system.Service.UserService;
 import com.Hospital_mang.system.request.JwtRequest;
 import com.Hospital_mang.system.request.RefreshTokenRequest;
+import com.Hospital_mang.system.request.UserRequest;
 import com.Hospital_mang.system.response.JwtResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,6 +38,8 @@ public class AuthenticationController {
 
     @Autowired
     private AuthService authService;
+    @Autowired
+    private UserService userService;
 
     @Operation(summary = "Authentication call. Users are to provide their usernames and passwords to enable this operation")
     @ApiResponses(value = {
@@ -58,5 +61,15 @@ public class AuthenticationController {
     //@ApiOperation(value = "This method handles refresh token", response = String.class)
     public ResponseEntity<?> refreshtoken(@Valid @RequestBody RefreshTokenRequest request) {
         return authService.refreshToken(request);
+    }
+    @Operation(summary = "Save staff profile. This endpoint save staff profile. role must be defined and also gender")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "profile save"),
+            @ApiResponse(responseCode = "400", description = "Error saving data"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @PostMapping({"/register"})
+    public ResponseEntity<?> registerStaffProfile(@Valid @RequestBody UserRequest request) {
+        return userService.registerStaffRecord(request);
     }
 }
