@@ -40,11 +40,11 @@ public class AuthenticationController {
     @Operation(summary = "Authentication call. Users are to provide their usernames and passwords to enable this operation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User  validated"),
-            @ApiResponse(responseCode = "404", description = "Username or password not found"),
+            @ApiResponse(responseCode = "400", description = "Username or password not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping({"/login"})
-    public JwtResponse Login(@Valid @RequestBody JwtRequest jwtRequest) {
+    public ResponseEntity<JwtResponse> Login(@Valid @RequestBody JwtRequest jwtRequest) {
         return authService.LoginUser(jwtRequest);
     }
 

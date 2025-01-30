@@ -59,7 +59,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         }
         try {
             if (userProfile1 == null) {
-                return new MessageResponseObject("Failed; Invalid username or password", HttpStatus.NOT_FOUND.value());
+                return new MessageResponseObject("Failed; Invalid username or password", HttpStatus.BAD_REQUEST.value());
             } else if ((userProfile1 != null && userProfile1.getStatus() == "0")) {
                 return new MessageResponseObject("Operation not allowed; your account has not been activated", HttpStatus.PARTIAL_CONTENT.value());
             } else if (userProfile1 != null && userProfile1.getStatus() != "1") {

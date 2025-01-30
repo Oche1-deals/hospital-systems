@@ -59,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserLoginService userLoginService;
     @Override
-    public JwtResponse LoginUser(JwtRequest jwtRequest) {
+    public ResponseEntity<JwtResponse>  LoginUser(JwtRequest jwtRequest) {
         SystemUserDTO systemUserDTO = new SystemUserDTO();
         StaffRecord staffRecord = new StaffRecord();
         String userName = jwtRequest.getUserName();
@@ -71,8 +71,8 @@ public class AuthServiceImpl implements AuthService {
         StaffRecord userProfile;
         MessageResponseObject messageResponseObject = userLoginService.getActiveUserByEmail(userName);
                if (messageResponseObject.getCode() != 200) {
-            return new JwtResponse(null, null, null,
-                    messageResponseObject.getCode(), messageResponseObject.getMessage());
+            return  ResponseEntity.badRequest().body(new JwtResponse(null, null, null,
+                    messageResponseObject.getCode(), messageResponseObject.getMessage()));
         }
         Map<String, Object> responseMap = (Map<String, Object>) messageResponseObject.getData();
         // login = (UserLogin) messageResponseObject.getData();
@@ -82,8 +82,8 @@ public class AuthServiceImpl implements AuthService {
         //System.out.println("userProfile "+new Gson().toJson(userProfile));
         if (userProfile != null) {
             if (!Objects.equals(userProfile.getStatus(), "1")) {
-                return new JwtResponse(null,
-                        null, null, HttpStatus.CONFLICT.value(), "Invalid account for this operation; Customer account not allowed for this service");
+                return ResponseEntity.badRequest().body(new JwtResponse(null,
+                        null, null, HttpStatus.CONFLICT.value(), "Invalid account for this operation; Customer account not allowed for this service"));
             }
 
         }
@@ -97,28 +97,28 @@ public class AuthServiceImpl implements AuthService {
             }
 
             if (login.getPasswordCount() < 4) {
-                return new JwtResponse(null,
+                return ResponseEntity.badRequest().body(new JwtResponse(null,
                         null, null, HttpStatus.NOT_FOUND.value(), ""
                         + "Invalid user name or password; Login retry count " + (login.getPasswordCount()) + " ."
-                        + "Kindly note that your account would be locked after 4 wrong attempts");
+                        + "Kindly note that your account would be locked after 4 wrong attempts"));
             } else {
-                return new JwtResponse(null,
+                return ResponseEntity.badRequest().body(new JwtResponse(null,
                         null, null, HttpStatus.NOT_FOUND.value(), ""
                         + "Login Failed; You have entered wrong details more than four times kindly"
-                        + " re validate and confirm OTP to continue");
+                        + " re validate and confirm OTP to continue"));
             }
 
         }
 
         if (login.getPasswordCount() >= 4) {
-            return new JwtResponse(null,
+            return ResponseEntity.badRequest().body(new JwtResponse(null,
                     null, null, HttpStatus.CONFLICT.value(), "Invalid Operation: You have entered wrong details more then 4 times and your account has been locked"
-                    + " Kindly revalidate to re active account");
+                    + " Kindly revalidate to re active account"));
         }
         if (Objects.equals(login.getLockedStatus(), "1")) {
-            return new JwtResponse(null,
+            return   ResponseEntity.badRequest().body(new JwtResponse(null,
                     null, null, HttpStatus.CONFLICT.value(), "Invalid Operation: Your account has been locked kindly "
-                    + "revalidate and enter OTP to re active account");
+                    + "revalidate and enter OTP to re active account"));
         }
 
         try {
@@ -147,7 +147,7 @@ public class AuthServiceImpl implements AuthService {
         newGeneratedToken = jwtUtil.generateToken(userDetails);
         Map<String, Object> dataMap = new HashMap<String, Object>();
         assert refreshToken != null;
-        return new JwtResponse(login, newGeneratedToken, refreshToken.getToken(), null);
+          return ResponseEntity.ok( new JwtResponse(login, newGeneratedToken, refreshToken.getToken(), null));
     }
 
     @Override

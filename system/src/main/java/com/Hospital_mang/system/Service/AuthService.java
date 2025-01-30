@@ -11,6 +11,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface AuthService {
     void authenticate(String userName, String userPassword);
-    JwtResponse LoginUser(JwtRequest jwtRequest);
+    ResponseEntity<JwtResponse>  LoginUser(JwtRequest jwtRequest);
     public ResponseEntity<?> refreshToken(RefreshTokenRequest request);
 }
