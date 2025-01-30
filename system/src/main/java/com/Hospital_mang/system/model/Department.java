@@ -17,4 +17,7 @@ public class Department {
 
     private String deptName;
 
+    private int status;//1 is active , 0 is invactive
+    private boolean deleted;
+
 }

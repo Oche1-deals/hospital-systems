@@ -4,6 +4,7 @@
  */
 package com.Hospital_mang.system.response;
 
+import com.Hospital_mang.system.dtoconverter.SystemUserDTO;
 import com.Hospital_mang.system.model.Login;
 import lombok.Data;
 
@@ -17,11 +18,18 @@ public class JwtResponse {
     private String refreshToken;
     private Map<String,Object> data;
     private String message = "login successful";
+    private SystemUserDTO   systemUserDTO;
 
 
 
     public JwtResponse(Login user, String jwtToken, String refreshToken, Map<String, Object> data) {
         this.user = user;
+        this.jwtToken = jwtToken;
+        this.refreshToken = refreshToken;
+        this.data = data;
+    }
+    public JwtResponse(SystemUserDTO user, String jwtToken, String refreshToken, Map<String, Object> data) {
+        this.systemUserDTO = user;
         this.jwtToken = jwtToken;
         this.refreshToken = refreshToken;
         this.data = data;

@@ -22,6 +22,7 @@ import com.Hospital_mang.system.utils.JwtUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class UserLoginServiceImpl implements UserLoginService {
@@ -41,14 +42,9 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Override
     public MessageResponseObject getActiveUserByEmail(String email) {
         Login userLogin;
-        StaffRecord userProfile = new StaffRecord();
-        userProfile.setEmail(email);
-        userProfile.setStaffId(email);
-        userProfile.setPhoneNumber(email);
-
         Map<String, Object> responseMap = new HashMap<>();
         MessageResponseObject messageResponseObject = new MessageResponseObject();
-        StaffRecord userProfile1 = staffRepository.findByEmailOrPhoneNumber(email, email);
+        StaffRecord userProfile1 = staffRepository.findByEmailOrPhoneNumberOrStaffId(email, email,email);
 
         try {
             userLogin = userLoginRepository.findByStaffIdOrEmail(email, email).get();
@@ -60,13 +56,16 @@ public class UserLoginServiceImpl implements UserLoginService {
         try {
             if (userProfile1 == null) {
                 return new MessageResponseObject("Failed; Invalid username or password", HttpStatus.BAD_REQUEST.value());
-            } else if ((userProfile1 != null && userProfile1.getStatus() == "0")) {
+            } else if (Objects.equals(userProfile1.getStatus(), "0")) {
                 return new MessageResponseObject("Operation not allowed; your account has not been activated", HttpStatus.PARTIAL_CONTENT.value());
-            } else if (userProfile1 != null && userProfile1.getStatus() != "1") {
+            } else if (!Objects.equals(userProfile1.getStatus(), "1")) {
                 return new MessageResponseObject("Operation not allowed; your account has not been activated", HttpStatus.PARTIAL_CONTENT.value());
-            } else if ((userLogin != null && (userLogin.getLockedStatus() != "1"))) {
+            } else if ((userLogin != null && (Objects.equals(userLogin.getLockedStatus(), "0")))) {
+                return new MessageResponseObject("Your account has been locked, kindly reset your account", HttpStatus.LOCKED.value());
+            }else if ((userLogin != null && (!Objects.equals(userLogin.getLockedStatus(), "1")))) {
                 messageResponseObject.setCode(200);
             }
+
             responseMap.put("login", userLogin);
             responseMap.put("user", userProfile1);
             messageResponseObject.setMessage("User Valid");
@@ -88,7 +87,6 @@ public class UserLoginServiceImpl implements UserLoginService {
             userLoginRepository.save(userLogin);
             result = true;
         } catch (Exception e) {
-            result = false;
         }
         return result;
     }

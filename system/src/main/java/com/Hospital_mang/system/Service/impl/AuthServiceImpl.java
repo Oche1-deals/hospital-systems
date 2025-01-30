@@ -61,17 +61,15 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<JwtResponse>  LoginUser(JwtRequest jwtRequest) {
         SystemUserDTO systemUserDTO = new SystemUserDTO();
-        StaffRecord staffRecord = new StaffRecord();
         String userName = jwtRequest.getUserName();
-        String userPassword = jwtRequest.getUserPassword();
         UserDetails userDetails = null;
         RefreshToken refreshToken = null;
         String newGeneratedToken;
         Login login;
         StaffRecord userProfile;
         MessageResponseObject messageResponseObject = userLoginService.getActiveUserByEmail(userName);
-               if (messageResponseObject.getCode() != 200) {
-            return  ResponseEntity.badRequest().body(new JwtResponse(null, null, null,
+        if (messageResponseObject.getCode() != 200) {
+            return ResponseEntity.badRequest().body(new JwtResponse(null, null, null,
                     messageResponseObject.getCode(), messageResponseObject.getMessage()));
         }
         Map<String, Object> responseMap = (Map<String, Object>) messageResponseObject.getData();
@@ -147,7 +145,7 @@ public class AuthServiceImpl implements AuthService {
         newGeneratedToken = jwtUtil.generateToken(userDetails);
         Map<String, Object> dataMap = new HashMap<String, Object>();
         assert refreshToken != null;
-          return ResponseEntity.ok( new JwtResponse(login, newGeneratedToken, refreshToken.getToken(), null));
+          return ResponseEntity.ok( new JwtResponse(systemUserDTO, newGeneratedToken, refreshToken.getToken(), null));
     }
 
     @Override
