@@ -14,4 +14,7 @@ public class Role {
 
  private String description;
 
+ private int status;//1 is active , 0 is invactive
+ private boolean deleted;
+
 }
