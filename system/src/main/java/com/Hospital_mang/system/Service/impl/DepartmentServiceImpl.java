@@ -59,10 +59,11 @@ public class DepartmentServiceImpl implements DepartmentService {
         Map<String, Object> response = new HashMap<>();
         response.put("data",
                 ConvertedDepartmentResponseDTO.departmentMultiResponse(viewAllDepartment.getContent()));
-        response.put("total",viewAllDepartment.getTotalPages());
-        response.put("currentPage",viewAllDepartment.getNumber());
-        response.put("pageSize",viewAllDepartment.getSize());
+        response.put("total", viewAllDepartment.getTotalElements());
+        response.put("currentPage", viewAllDepartment.getNumber());
+        response.put("totalPage", viewAllDepartment.getTotalPages());
 
-        return ResponseEntity.accepted().body(new MessageResponseObject("Department found",HttpStatus.OK.value(), response));
+
+        return ResponseEntity.accepted().body(new MessageResponseObject("Department found", HttpStatus.OK.value(), response));
     }
 }
