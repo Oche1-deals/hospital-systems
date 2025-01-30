@@ -12,6 +12,7 @@ import com.Hospital_mang.system.repository.LoginRepository;
 import com.Hospital_mang.system.repository.StaffRepository;
 import com.Hospital_mang.system.response.MessageResponseObject;
 import com.Hospital_mang.system.utils.UserUtil;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -94,5 +95,13 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Override
     public MessageResponseObject changeUserStatus(String email, String type) {
         return null;
+    }
+    @Override
+    public Login getUserJWTLogin() {
+        String authorizationHeader = request.getHeader("Authorization");
+        String jwtToken = userUtil.extractJwtToken(authorizationHeader);
+        Claims claims = jwtUtil.getAllClaimsFromToken(jwtToken);
+        Login userLogin = userLoginRepository.findByStaffIdOrEmail(claims.getSubject(),claims.getSubject()).get();
+        return userLogin;
     }
 }
