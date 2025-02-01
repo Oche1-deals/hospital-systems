@@ -39,7 +39,9 @@ public class SecurityConfig {
             "/actuator/**",               // Actuator endpoints if needed
             "/api/v1/profile/**",
             "/api/v1/userinfo/**",
-            "/api/v1/auth/register/**"
+            "/api/v1/auth/register/**",
+            "/api/v1/desig/**",
+            "/api/v1/desigtype"
 
     };
 

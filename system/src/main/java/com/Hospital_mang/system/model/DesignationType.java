@@ -11,6 +11,9 @@ public class DesignationType {
 @Column(name = "id", nullable = false)
  public String id;
 
- public String description;
+ public String designationName;
+
+ private int status;//1 is active , 0 is invactive
+ private boolean deleted;
 
 }
