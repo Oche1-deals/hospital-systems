@@ -62,7 +62,6 @@ public class UserRequest {
     private String designationId;
 
 
-
 }
 
 

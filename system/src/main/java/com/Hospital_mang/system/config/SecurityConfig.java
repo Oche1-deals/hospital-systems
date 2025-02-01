@@ -41,7 +41,8 @@ public class SecurityConfig {
             "/api/v1/userinfo/**",
             "/api/v1/auth/register/**",
             "/api/v1/desig/**",
-            "/api/v1/desigtype"
+            "/api/v1/desigtype/**",
+            "/api/v1/pharmacy/**"
 
     };
 

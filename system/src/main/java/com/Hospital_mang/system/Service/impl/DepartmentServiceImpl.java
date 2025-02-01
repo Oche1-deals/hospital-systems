@@ -40,6 +40,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         String deptID = GenerateUniqueIDServiceImpl.zeroPad(generateUniqueIDService.
                 generateUniqueID("dept").getGeneNumber(), 5);
         Login staffRcord = userLoginService.getUserJWTLogin();
+
         Department department = new Department();
         department.setDeptName(departmentName);
         department.setStatus(1);
@@ -47,6 +48,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         department.setDeptId(deptID);
         department.setStaffId(staffRcord.getStaffId());
         Department savedDept = departmentRepository.save(department);
+
         if (savedDept == null) {
             return ResponseEntity.badRequest().body(new MessageResponseObject("Failed! Could not register deptment. Contact an Admin" +
                     "", HttpStatus.BAD_REQUEST.value()));

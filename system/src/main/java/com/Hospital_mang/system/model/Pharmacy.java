@@ -21,4 +21,7 @@ public class Pharmacy {
 
  private Double pricePerUnit;
 
+ private int status;//1 is active , 0 is invactive
+ private boolean deleted;
+
 }
