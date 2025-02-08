@@ -30,13 +30,14 @@ public class PharmacyServiceImpl implements PharmacyService {
     public ResponseEntity<?> registerMedication(PharmacyRequest pharmacyRequest) {
             String medicinesId = GenerateUniqueIDServiceImpl.zeroPad(generateUniqueIDService.
                     generateUniqueID("medicine").getGeneNumber(), 5);
-            Login staffRcord = userLoginService.getUserJWTLogin();
+            Login staffRcord = userLoginService.getUserJWTLogin();// returns the users with the jwt token
 
 
             Pharmacy pharmacy = pharmacyResponse(pharmacyRequest);
             pharmacy.setStatus(1);
             pharmacy.setDeleted(Boolean.FALSE);
             pharmacy.setMedicinesId(medicinesId);
+        pharmacy.setStaffId(staffRcord.getStaffId());
         //  pharmacy.setQuantity(pharmacyRequest.getQuantity());
         //    pharmacy.setPricePerUnit(pharmacyRequest.getPricePerUnit());
           //  pharmacy.setExpiryDate(pharmacyRequest.getExpiryDate());

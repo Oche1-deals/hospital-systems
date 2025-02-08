@@ -1,10 +1,7 @@
 package com.Hospital_mang.system.request;
 
 import com.Hospital_mang.system.model.enummodel.Gender;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,16 +19,14 @@ public class PharmacyRequest {
     private String medicineName;
 
     @NotNull(message = "Quantity cannot be null")
-    @NotEmpty(message = "Quantity cannot be empty")
+    @Min(value = 0, message = "quantity must not be 0")
     private int quantity;
 
     @NotNull(message = "expiryDate cannot be null")
-    @NotEmpty(message = "expiryDate cannot be empty")
-    @Email(message = "invalid email format")
     private LocalDate expiryDate;
 
     @NotNull(message = "pricePerUnit cannot be null")
-    @NotEmpty(message = "pricePerUnit cannot be empty")
+    @Min(value = 0,message = "price must not be 0")
     private Double pricePerUnit;
 
 
